@@ -112,23 +112,34 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         $settings = $this->get_settings_for_display();
         $heading_title = $settings['heading_title'];
         $heading_subtitle = $settings['heading_subtitle'];
-        ?>
-        <div class="nhr-practice-lwhh-heading">
-            <h2 class="nhr-practice-lwhh-heading-title"><?php echo esc_html($heading_title); ?></h2>
-            <p class="nhr-practice-lwhh-heading-subtitle"><?php echo esc_html($heading_subtitle); ?></p>
-        </div>
-        <?php
-}
+        /**
+         *   Inline Editing
+         */
+
+        $this->add_inline_editing_attributes('heading_title', 'none'); // we can also use 'basic' or 'advanced' in place of 'none'
+        $this->add_inline_editing_attributes('heading_subtitle', 'none');
+        $this->add_render_attribute('heading_title', ['class' => 'nhr-practice-lwhh-heading-title']);
+        $this->add_render_attribute('heading_subtitle', ['class' => 'nhr-practice-lwhh-heading-subtitle']);
+
+        echo '<div class="nhr-practice-lwhh-heading">
+                <h2 ' . $this->get_render_attribute_string('heading_title') . ' >' . esc_html($heading_title) . '</h2>
+                <p ' . $this->get_render_attribute_string('heading_subtitle') . ' >' . esc_html($heading_subtitle) . '</p>
+            </div>';
+    }
 
     protected function _content_template()
     {
         ?>
         <#
             console.log(settings);
+            view.addInlineEditingAttributes('heading_title', 'none');
+            view.addInlineEditingAttributes('heading_subtitle', 'none');
+            view.addRenderAttribute('heading_title', 'class', 'nhr-practice-lwhh-heading-title');
+            view.addRenderAttribute('heading_subtitle', 'class', 'nhr-practice-lwhh-heading-subtitle');
         #>
         <div class="nhr-practice-lwhh-heading">
-            <h2 class="nhr-practice-lwhh-heading-title">{{{settings.heading_title}}}</h2>
-            <p class="nhr-practice-lwhh-heading-subtitle">{{{settings.heading_subtitle}}}</p>
+            <h2 {{{ view.getRenderAttributeString('heading_title')}}}>{{{settings.heading_title}}}</h2>
+            <p {{{ view.getRenderAttributeString('heading_subtitle')}}}>{{{settings.heading_subtitle}}}</p>
         </div>
         <?php
 }
