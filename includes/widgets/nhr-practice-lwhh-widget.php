@@ -71,7 +71,7 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
                 'label' => esc_html__('Heading Color', 'nhr-practice-lwhh'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .heading-title' => 'color: {{VALUE}}',
+                    '{{WRAPPER}} .nhr-practice-lwhh-heading-title' => 'color: {{VALUE}}',
                 ],
             ]
         );
@@ -81,7 +81,7 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
                 'label' => esc_html__('Heading Subtitle Color', 'nhr-practice-lwhh'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .heading-subtitle' => 'color: {{VALUE}}',
+                    '{{WRAPPER}} .nhr-practice-lwhh-heading-subtitle' => 'color: {{VALUE}}',
                 ],
             ]
         );
@@ -89,13 +89,16 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         $this->add_control(
             'aligment',
             [
-                'label' => esc_html__('Alignment', 'nhr-practice-lwhh'),
+                'label' => esc_html__('Content Alignment', 'nhr-practice-lwhh'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => 'center',
                 'options' => [
                     'left' => esc_html__('Left', 'nhr-practice-lwhh'),
                     'center' => esc_html__('Center', 'nhr-practice-lwhh'),
                     'right' => esc_html__('Right', 'nhr-practice-lwhh'),
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .nhr-practice-lwhh-heading' => 'text-align: {{VALUE}}',
                 ],
             ]
         );
@@ -109,9 +112,8 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         $settings = $this->get_settings_for_display();
         $heading_title = $settings['heading_title'];
         $heading_subtitle = $settings['heading_subtitle'];
-        $aligment = $settings['aligment'];
         ?>
-        <div class="nhr-practice-lwhh-heading" style="text-align: <?php echo esc_attr($aligment); ?>">
+        <div class="nhr-practice-lwhh-heading">
             <h2 class="nhr-practice-lwhh-heading-title"><?php echo esc_html($heading_title); ?></h2>
             <p class="nhr-practice-lwhh-heading-subtitle"><?php echo esc_html($heading_subtitle); ?></p>
         </div>
