@@ -120,4 +120,17 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         <?php
 }
 
+    protected function _content_template()
+    {
+        ?>
+        <#
+            console.log(settings);
+        #>
+        <div class="nhr-practice-lwhh-heading">
+            <h2 class="nhr-practice-lwhh-heading-title">{{{settings.heading_title}}}</h2>
+            <p class="nhr-practice-lwhh-heading-subtitle">{{{settings.heading_subtitle}}}</p>
+        </div>
+        <?php
+}
+
 }
