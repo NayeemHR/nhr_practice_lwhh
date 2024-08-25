@@ -33,7 +33,7 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         $this->start_controls_section(
             'heading_section',
             [
-                'label' => esc_html__('Heading', 'nhr-projects-filter'),
+                'label' => esc_html__('Content', 'nhr-projects-filter'),
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -56,6 +56,36 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
                 'placeholder' => esc_html__('Type your subtitle here', 'nhr-practice-lwhh'),
             ]
         );
+
+        $this->end_controls_section();
+        $this->start_controls_section(
+            'style_section',
+            [
+                'label' => esc_html__('Style Section', 'nhr-practice-lwhh'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+        $this->add_control(
+            'heading_color',
+            [
+                'label' => esc_html__('Heading Color', 'nhr-practice-lwhh'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .heading-title' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+        $this->add_control(
+            'heading_subtitle_color',
+            [
+                'label' => esc_html__('Heading Subtitle Color', 'nhr-practice-lwhh'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .heading-subtitle' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
         $this->add_control(
             'aligment',
             [
