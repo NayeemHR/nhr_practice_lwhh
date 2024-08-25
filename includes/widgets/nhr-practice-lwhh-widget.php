@@ -56,6 +56,33 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
                 'placeholder' => esc_html__('Type your subtitle here', 'nhr-practice-lwhh'),
             ]
         );
+        $this->add_control(
+            'image',
+            [
+                'label' => esc_html__('Choose Image', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => \Elementor\Utils::get_placeholder_image_src(),
+                ],
+            ]
+        );
+        $this->add_group_control(
+            \Elementor\Group_Control_Image_Size::get_type(),
+            [
+                'name' => 'thumbnail', // Usage: `{name}_size` and `{name}_custom_dimension`, in this case `thumbnail_size` and `thumbnail_custom_dimension`.
+                'exclude' => ['custom'],
+                'include' => [],
+                'default' => 'large',
+            ]
+        );
+        // $this->add_group_control(
+        //     \Elementor\Group_Control_Image_Size::get_type(),
+        //     [
+        //         'default' => 'large',
+        //         'name' => 'imagexz',
+
+        //     ],
+        // );
 
         $this->end_controls_section();
         $this->start_controls_section(
@@ -122,24 +149,39 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         $this->add_render_attribute('heading_subtitle', ['class' => 'nhr-practice-lwhh-heading-subtitle']);
 
         echo '<div class="nhr-practice-lwhh-heading">
-                <h2 ' . $this->get_render_attribute_string('heading_title') . ' >' . esc_html($heading_title) . '</h2>
-                <p ' . $this->get_render_attribute_string('heading_subtitle') . ' >' . esc_html($heading_subtitle) . '</p>
-            </div>';
+                <h2' . $this->get_render_attribute_string('heading_title') . ' >' . esc_html($heading_title) . '</h2>
+                <p' . $this->get_render_attribute_string('heading_subtitle') . ' >' . esc_html($heading_subtitle) . '</p>';
+        // Get image URL
+        // echo '<img src="' . $settings['image']['url'] . '">';
+        // echo wp_get_attachment_image($settings['image']['id'], 'thumbnail');
+        // echo \Elementor\Group_Control_Image_Size::get_attachment_image_html($settings, 'imagexz', 'imagezz');
+        echo \Elementor\Group_Control_Image_Size::get_attachment_image_html($settings, 'thumbnail', 'image');
+
+        echo '</div>';
     }
 
     protected function _content_template()
     {
         ?>
         <#
-            console.log(settings);
-            view.addInlineEditingAttributes('heading_title', 'none');
-            view.addInlineEditingAttributes('heading_subtitle', 'none');
-            view.addRenderAttribute('heading_title', 'class', 'nhr-practice-lwhh-heading-title');
-            view.addRenderAttribute('heading_subtitle', 'class', 'nhr-practice-lwhh-heading-subtitle');
-        #>
+        view.addInlineEditingAttributes('heading_title', 'none');
+        view.addInlineEditingAttributes('heading_subtitle', 'none');
+        view.addRenderAttribute('heading_title', 'class', 'nhr-practice-lwhh-heading-title');
+        view.addRenderAttribute('heading_subtitle', 'class', 'nhr-practice-lwhh-heading-subtitle');
+		const image = {
+			id: settings.image.id,
+			url: settings.image.url,
+			size: settings.thumbnail_size,
+			dimension: settings.thumbnail_custom_dimension,
+			model: view.getEditModel()
+		};
+		const image_url = elementor.imagesManager.getImageUrl( image );
+		#>
+
         <div class="nhr-practice-lwhh-heading">
             <h2 {{{ view.getRenderAttributeString('heading_title')}}}>{{{settings.heading_title}}}</h2>
             <p {{{ view.getRenderAttributeString('heading_subtitle')}}}>{{{settings.heading_subtitle}}}</p>
+            <img src="{{ image_url }}">
         </div>
         <?php
 }
