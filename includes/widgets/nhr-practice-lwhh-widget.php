@@ -153,6 +153,33 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
             ]
         );
 
+        $this->add_control(
+            'size',
+            [
+                'label' => esc_html__('Size', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 5,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'default' => [
+                    'unit' => '%',
+                    'size' => 50,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .nhr-practice-lwhh-heading-title' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
         $this->end_popover();
 
         $this->end_controls_section();
@@ -272,9 +299,23 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
                 ],
             ]
         );
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'content_typography',
+                'selector' => '{{WRAPPER}} .nhr-practice-lwhh-heading-subtitle',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'box_shadow',
+                'selector' => '{{WRAPPER}} .nhr-practice-lwhh-heading-subtitle',
+            ]
+        );
 
         $this->end_controls_section();
-
     }
 
     protected function render()
