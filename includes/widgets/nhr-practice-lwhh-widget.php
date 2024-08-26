@@ -149,8 +149,8 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         $this->add_render_attribute('heading_subtitle', ['class' => 'nhr-practice-lwhh-heading-subtitle']);
 
         echo '<div class="nhr-practice-lwhh-heading">
-                <h2' . $this->get_render_attribute_string('heading_title') . ' >' . esc_html($heading_title) . '</h2>
-                <p' . $this->get_render_attribute_string('heading_subtitle') . ' >' . esc_html($heading_subtitle) . '</p>';
+                <h2 ' . $this->get_render_attribute_string('heading_title') . ' >' . esc_html($heading_title) . '</h2>
+                <p ' . $this->get_render_attribute_string('heading_subtitle') . ' >' . esc_html($heading_subtitle) . '</p>';
         // Get image URL
         // echo '<img src="' . $settings['image']['url'] . '">';
         // echo wp_get_attachment_image($settings['image']['id'], 'thumbnail');
