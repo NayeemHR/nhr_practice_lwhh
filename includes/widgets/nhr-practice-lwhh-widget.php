@@ -129,6 +129,31 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
                 ],
             ]
         );
+        $this->add_control(
+            'font_popover_toggle',
+            [
+                'label' => esc_html__('Font', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::POPOVER_TOGGLE,
+                'label_off' => esc_html__('Default', 'textdomain'),
+                'label_on' => esc_html__('Custom', 'textdomain'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+        $this->start_popover();
+        $this->add_control(
+            'font_family',
+            [
+                'label' => esc_html__('Font H1', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::FONT,
+                'default' => "'Open Sans', sans-serif",
+                'selectors' => [
+                    '{{WRAPPER}} .nhr-practice-lwhh-heading-title' => 'font-family: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $this->end_popover();
 
         $this->end_controls_section();
 
@@ -202,6 +227,52 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
             ]
         );
 
+        $this->add_control(
+            'custom_dimension',
+            [
+                'label' => esc_html__('Image Dimension', 'nhr-practice-lwhh'),
+                'type' => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
+                'description' => esc_html__('Crop the original image size to any custom size. Set custom width or height to keep the original size ratio.', 'nhr-practice-lwhh'),
+                'default' => [
+                    'width' => '',
+                    'height' => '',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'gallery',
+            [
+                'label' => esc_html__('Gallery', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::GALLERY,
+                'default' => [],
+            ]
+        );
+
+        $this->add_control(
+            'icon',
+            [
+                'label' => esc_html__('Icon', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::ICONS,
+                'default' => [
+                    'value' => 'fas fa-circle',
+                    'library' => 'fa-solid',
+                ],
+                'recommended' => [
+                    'fa-solid' => [
+                        'circle',
+                        'dot-circle',
+                        'square-full',
+                    ],
+                    'fa-regular' => [
+                        'circle',
+                        'dot-circle',
+                        'square-full',
+                    ],
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
     }
@@ -237,16 +308,33 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
             }
             echo '</ul>';
         }
+        // image dimension
+        echo '<ul>
+        <li>Width:' . $settings['custom_dimension']['width'] . '</li>
+        <li>Height:' . $settings['custom_dimension']['height'] . '</li>
+        </ul>';
+
+        echo '<h4>Gallery</h4>';
+        foreach ($settings['gallery'] as $image) {
+            echo '<img src="' . esc_attr($image['url']) . '">';
+        }
+        echo '<h4>Icon</h4>';
+        echo '<div class="my-icon-wrapper">';
+        \Elementor\Icons_Manager::render_icon($settings['icon'], ['aria-hidden' => 'true']);
+        echo '</div>';
     }
 
     protected function _content_template()
     {
         ?>
         <#
+
         view.addInlineEditingAttributes('heading_title', 'none');
         view.addInlineEditingAttributes('heading_subtitle', 'none');
         view.addRenderAttribute('heading_title', 'class', 'nhr-practice-lwhh-heading-title');
         view.addRenderAttribute('heading_subtitle', 'class', 'nhr-practice-lwhh-heading-subtitle');
+
+
 		const image = {
 			id: settings.image.id,
 			url: settings.image.url,
@@ -255,6 +343,7 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
 			model: view.getEditModel()
 		};
 		const image_url = elementor.imagesManager.getImageUrl( image );
+
 		#>
 
         <div class="nhr-practice-lwhh-heading">
@@ -270,6 +359,33 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
 			<# } ) #>
 			</ul>
 		<# } #>
+        <!-- Image Dimension  -->
+        <ul>
+            <li>Width:{{{settings.custom_dimension.width}}}</li>
+            <li>Height:{{{settings.custom_dimension.height}}}</li>
+        </ul>
+
+        <h4>Gallery</h4>
+        <#
+        _.each( settings.gallery, function(image) {
+            const image_gallry = {
+                id: image.id,
+                url: image.url,
+                size: 'thumbnail',
+            };
+            const image_url = elementor.imagesManager.getImageUrl( image_gallry );
+         #>
+			<img src="{{ image_url }}">
+		<# }); #>
+
+        <h4>Icon</h4>
+        <#
+		const iconHTML = elementor.helpers.renderIcon( view, settings.selected_icon, { 'aria-hidden': true }, 'i' , 'object' );
+		#>
+		<div class="my-icon-wrapper">
+			{{{ iconHTML.value }}}
+		</div>
+
         <?php
 }
 
