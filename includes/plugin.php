@@ -131,6 +131,8 @@ final class Plugin
     {
         require_once __DIR__ . '/widgets/nhr-practice-lwhh-widget.php';
         $widgets_manager->register(new \Nhr_Practice_Lwhh_Filter());
+        require_once __DIR__ . '/widgets/nhr-practice-repeater.php';
+        $widgets_manager->register(new \Nhr_Practice_Repeater());
     }
 
     public function register_controls($controls_manager)
