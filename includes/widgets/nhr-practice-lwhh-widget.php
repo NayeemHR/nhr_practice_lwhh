@@ -59,7 +59,7 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         $this->add_control(
             'image',
             [
-                'label' => esc_html__('Choose Image', 'textdomain'),
+                'label' => esc_html__('Choose Image', 'nhr-practice-lwhh'),
                 'type' => \Elementor\Controls_Manager::MEDIA,
                 'default' => [
                     'url' => \Elementor\Utils::get_placeholder_image_src(),
@@ -132,6 +132,78 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'Extra Section',
+            [
+                'label' => esc_html__('Extra Section', 'nhr-practice-lwhh'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'country_select',
+            [
+                'label' => esc_html__('Select Your Fav. Country', 'nhr-practice-lwhh'),
+                'type' => \Elementor\Controls_Manager::SELECT2,
+                'label_block' => true,
+                'multiple' => true,
+                'options' => [
+                    'Bangladesh' => esc_html__('Bangladesh', 'nhr-practice-lwhh'),
+                    'India' => esc_html__('India', 'nhr-practice-lwhh'),
+                    'USA' => esc_html__('USA', 'nhr-practice-lwhh'),
+                ],
+                'default' => ['USA'],
+            ]
+        );
+        $this->add_control(
+            'country_text_align',
+            [
+                'label' => esc_html__('Alignment', 'nhr-practice-lwhh'),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [
+                        'title' => esc_html__('Left', 'nhr-practice-lwhh'),
+                        'icon' => 'eicon-text-align-left',
+                    ],
+                    'center' => [
+                        'title' => esc_html__('Center', 'nhr-practice-lwhh'),
+                        'icon' => 'eicon-text-align-center',
+                    ],
+                    'right' => [
+                        'title' => esc_html__('Right', 'nhr-practice-lwhh'),
+                        'icon' => 'eicon-text-align-right',
+                    ],
+                ],
+                'default' => 'center',
+                'toggle' => true,
+                'selectors' => [
+                    '{{WRAPPER}} .country-style' => 'text-align: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'border_style',
+            [
+                'label' => esc_html__('Border Style', 'nhr-practice-lwhh'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'solid',
+                'options' => [
+                    '' => esc_html__('Default', 'nhr-practice-lwhh'),
+                    'none' => esc_html__('None', 'nhr-practice-lwhh'),
+                    'solid' => esc_html__('Solid', 'nhr-practice-lwhh'),
+                    'dashed' => esc_html__('Dashed', 'nhr-practice-lwhh'),
+                    'dotted' => esc_html__('Dotted', 'nhr-practice-lwhh'),
+                    'double' => esc_html__('Double', 'nhr-practice-lwhh'),
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .country-style' => 'border-style: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
     }
 
     protected function render()
@@ -158,6 +230,13 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
         echo \Elementor\Group_Control_Image_Size::get_attachment_image_html($settings, 'thumbnail', 'image');
 
         echo '</div>';
+        if ($settings['country_select']) {
+            echo '<ul class="country-style">';
+            foreach ($settings['country_select'] as $item) {
+                echo '<li>' . $item . '</li>';
+            }
+            echo '</ul>';
+        }
     }
 
     protected function _content_template()
@@ -183,6 +262,14 @@ class Nhr_Practice_Lwhh_Filter extends \Elementor\Widget_Base
             <p {{{ view.getRenderAttributeString('heading_subtitle')}}}>{{{settings.heading_subtitle}}}</p>
             <img src="{{ image_url }}">
         </div>
+
+        <# if ( settings.country_select.length ) { #>
+			<ul class="country-style">
+			<# _.each( settings.country_select, function( item ) { #>
+				<li>{{{ item }}}</li>
+			<# } ) #>
+			</ul>
+		<# } #>
         <?php
 }
 
