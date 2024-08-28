@@ -112,7 +112,21 @@ final class Plugin
         add_action('elementor/widgets/register', [$this, 'register_widgets']);
         // add_action('elementor/controls/register', [$this, 'register_controls']);
         add_action('elementor/elements/categories_registered', [$this, 'add_elementor_widget_categories']);
+        add_action('elementor/frontend/after_enqueue_styles', [$this, 'widget_styles']);
+        add_action('elementor/editor/after_enqueue_scripts', [$this, 'pricing_editor_assets']);
+    }
 
+    public function widget_styles()
+    {
+        wp_enqueue_style('bootstrap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css');
+        wp_enqueue_style('font-awesome-css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
+        wp_enqueue_style('froala-css', '//cdnjs.cloudflare.com/ajax/libs/froala-design-blocks/2.0.1/css/froala_blocks.min.css');
+
+    }
+
+    public function pricing_editor_assets()
+    {
+        wp_enqueue_script('main-js', plugin_dir_url(__FILE__) . 'assets/js/main.js', array('jquery'), time(), true);
     }
 
     public function add_elementor_widget_categories($elements_manager)
@@ -133,6 +147,8 @@ final class Plugin
         $widgets_manager->register(new \Nhr_Practice_Lwhh_Filter());
         require_once __DIR__ . '/widgets/nhr-practice-repeater.php';
         $widgets_manager->register(new \Nhr_Practice_Repeater());
+        require_once __DIR__ . '/widgets/nhr-pricing-widget.php';
+        $widgets_manager->register(new \NHR_Pricing_Widget());
     }
 
     public function register_controls($controls_manager)
